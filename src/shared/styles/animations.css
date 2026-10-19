@@ -1,0 +1,80 @@
+/* ============ Анимации Мастер Строй ============
+   Главный "выход": плитка укладывается в hero. Остальное — тихо и по делу. */
+
+:root{--ease:cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- Reveal: появление при прокрутке ---------- */
+.reveal:not(.is-in){opacity:0}
+.reveal-up.is-in{animation:revealUp .7s var(--ease) var(--d,0ms) backwards}
+.reveal-wipe.is-in{animation:revealWipe .95s cubic-bezier(.7,0,.2,1) var(--d,0ms) backwards}
+@keyframes revealUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes revealWipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+
+/* ---------- Hero ---------- */
+.hero{background-repeat:no-repeat;background-position:center calc(56% + var(--parallax,0) * 1px)}
+.hero-content{pointer-events:none}
+.hero-content a,.hero-content button{pointer-events:auto}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.08em}
+.hero h1 .line>span{display:block;animation:lineUp .95s var(--ease) var(--d,0ms) backwards}
+@keyframes lineUp{from{transform:translateY(110%)}to{transform:none}}
+.rise{animation:riseIn .8s var(--ease) var(--d,0ms) backwards}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero-stats b{font-variant-numeric:tabular-nums}
+.scroll-cue svg{animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translate(0,0)}50%{transform:translate(3px,3px)}}
+
+/* ---------- Плитка в hero ---------- */
+.tile-field{--tw:112px;--th:52px;position:absolute;z-index:0;right:-70px;top:50%;display:flex;flex-direction:column;gap:6px;transform:translateY(-50%) rotate(-6deg);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 40%);mask-image:linear-gradient(90deg,transparent 0,#000 40%)}
+.tile-row{display:flex;gap:6px}
+.tile-row:nth-child(even){padding-left:calc(var(--tw) / 2 + 3px)}
+.tile{--o:.5;width:var(--tw);height:var(--th);border-radius:6px;background:var(--c);opacity:var(--o);animation:lay .75s cubic-bezier(.2,.9,.25,1.15) var(--d) backwards;transition:background .9s,opacity .9s,transform .9s}
+.tile-accent{--c:var(--orange);--o:.9}
+.tile:hover{background:var(--orange);opacity:1;transform:translateY(-4px);transition-duration:.08s}
+@keyframes lay{from{opacity:0;transform:translateY(-46px) rotate(-10deg) scale(.6)}to{opacity:var(--o);transform:none}}
+
+/* ---------- Кнопки: блик ---------- */
+.btn{position:relative;overflow:hidden}
+.btn:after{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,#ffffff55,transparent);transform:skewX(-20deg);transition:left .65s;pointer-events:none}
+.btn:hover:after{left:130%}
+
+/* ---------- Меню ---------- */
+.main-nav>a.active{color:var(--orange)}
+.main-nav>a.active:after{right:0}
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:120;background:var(--orange);transform-origin:left;transform:scaleX(var(--p,0));pointer-events:none}
+.to-top{position:fixed;right:20px;bottom:20px;z-index:60;width:46px;height:46px;display:grid;place-items:center;border:0;border-radius:50%;background:var(--orange);color:#fff;box-shadow:0 10px 25px #f05a0040;opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .3s,transform .3s,background .2s}
+.to-top.show{opacity:1;pointer-events:auto;transform:none}
+.to-top:hover{background:#d84f00}
+
+/* ---------- Преимущества: оранжевая заливка снизу ---------- */
+.benefit-card{overflow:hidden;isolation:isolate}
+.benefit-card:before{content:'';position:absolute;inset:0;z-index:-1;background:var(--orange);transform:translateY(101%);transition:transform .5s cubic-bezier(.7,0,.2,1)}
+.benefit-card:hover:before{transform:none}
+.benefit-card h3,.benefit-card p,.benefit-icon,.benefit-num{transition:color .35s,border-color .35s}
+.benefit-card:hover h3{color:#fff}
+.benefit-card:hover p{color:#fff0e8}
+.benefit-card:hover .benefit-icon{color:#fff;border-color:#ffffff88}
+.benefit-card:hover .benefit-num{color:#ffffffaa}
+
+/* ---------- Доставка: грузовик едет по дороге ---------- */
+.road{position:relative;height:36px;margin-bottom:16px;overflow:hidden}
+.road:after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:repeating-linear-gradient(90deg,#ffffffaa 0 14px,transparent 14px 28px);animation:roadMove .7s linear infinite}
+.road-truck{position:absolute;bottom:4px;left:-12%;animation:drive 7s linear infinite}
+@keyframes drive{to{left:105%}}
+@keyframes roadMove{to{background-position:-28px 0}}
+
+/* ---------- Видео: пульс кнопки ---------- */
+.play-button:before{content:'';position:absolute;inset:-1px;border-radius:50%;border:2px solid var(--orange);animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{from{transform:scale(1);opacity:.9}to{transform:scale(1.7);opacity:0}}
+
+/* ---------- Окно звонка и лайтбокс ---------- */
+.modal-product{display:inline-block;margin:0 0 16px;padding:7px 13px;border-radius:30px;background:#fff0e7;color:#b84200;font-size:11px;font-weight:800}
+.lightbox{animation:fadeIn .25s ease}
+.lightbox-img{animation:lbIn .4s var(--ease)}
+@keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.work-item>span svg{transition:transform .3s}
+.work-item:hover>span svg{transform:translate(3px,-3px)}
+
+/* ---------- Адаптив и доступность ---------- */
+@media(max-width:1000px){.tile-field{display:none}}
+@media(max-width:760px){.hero{background-position:55% center}.to-top{right:14px;bottom:14px}}
+@media(prefers-reduced-motion:reduce){.tile,.road-truck,.play-button:before,.scroll-cue svg,.road:after{animation:none!important}.tile{opacity:var(--o)}}
